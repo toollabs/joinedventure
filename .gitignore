@@ -29,4 +29,9 @@ Makefile*
 
 /tmp
 /cgi-bin
+/test
+/temp
 .*
+temp.*
+tmp.*
+test.*
