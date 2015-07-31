@@ -26,22 +26,23 @@
   <div class="container">
 <a href="//commons.wikimedia.org/wiki/File:Pictogram_voting_move.svg"><img class="decoded" alt="https://tools.wmflabs.org/joinedventure/move.png" src="https://tools.wmflabs.org/joinedventure/move.png" align="right" width="100" height="102"></a>
 <p>Last 200 category moves/renamings on Wikiemdia Conmons.</p>
-<?
+<?php
 $tools_pw = posix_getpwuid (posix_getuid ());
 $tools_mycnf = parse_ini_file($tools_pw['dir'] . "/replica.my.cnf");
-$db = mysql_connect('commonswiki.labsdb', $tools_mycnf['user'], $tools_mycnf['password']);
+$db = new mysqli('commonswiki.labsdb', $tools_mycnf['user'], $tools_mycnf['password'], 'commonswiki_p');
+if ($db->connect_errno)
+	die("Error when connecting to database: (" . $db->connect_errno . ") " . $db->connect_error);
+$r = $db->query('SELECT rc_timestamp, rc_user_text, rc_title, rc_params, rc_namespace, rc_log_type FROM recentchanges WHERE rc_namespace = "14" and rc_log_type = "move" ORDER BY rc_timestamp DESC LIMIT 200;');
 unset($tools_mycnf, $tools_pw);
-mysql_select_db('commonswiki_p', $db) or die (mysql_error ($db));
-$r = mysql_query('SELECT rc_timestamp, rc_user_text, rc_title, rc_params, rc_namespace, rc_log_type FROM recentchanges WHERE rc_namespace = "14" and rc_log_type = "move" ORDER BY rc_timestamp DESC LIMIT 200;');
 ?>
 
 <ul>
-   <? while($row = mysql_fetch_row($r)): 
+   <?php while ($row = $r->fetch_row()): 
    $u = unserialize( $row[3] );
    $to = $u["4::target"];
    ?>
   <li><a href="//commons.wikimedia.org/wiki/User:<?= htmlspecialchars( $row[1] ) ?>"><?= htmlspecialchars( $row[1] ) ?></a> moved <b>Category:<?= str_replace("_", " ", htmlspecialchars( $row[2] )); ?></b> (<a href="//commons.wikimedia.org/wiki/Special:Log/<?= htmlspecialchars( $row[2] ) ?>"><font color="#999999">log</font></a>) moved to: <i><a href="//commons.wikimedia.org/wiki/<?= htmlspecialchars( $to ) ?>"><?= htmlspecialchars( $to ) ?></a></i></li>
-   <? endwhile; ?>
+   <?php endwhile; ?>
 </ul>
 <hr>
 <small>Tool by <a href="//commons.wikimdia.org/wiki/User:Rillke">Rillke</a> &amp; <a href="//commons.wikimdia.org/wiki/User:Steinsplitter">Steinsplitter</a></small>
