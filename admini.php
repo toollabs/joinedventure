@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
         <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
-        <title>Category bot</title>
+        <title>Admin inactivity section tool (commons)</title>
   <link href="//tools-static.wmflabs.org/cdnjs/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
