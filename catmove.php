@@ -41,7 +41,7 @@ unset($tools_mycnf, $tools_pw);
    $u = unserialize( $row[3] );
    $to = $u["4::target"];
    ?>
-  <li><a href="//commons.wikimedia.org/wiki/User:<?= htmlspecialchars( $row[1] ) ?>"><?= htmlspecialchars( $row[1] ) ?></a> moved <b>Category:<?= str_replace("_", " ", htmlspecialchars( $row[2] )); ?></b> (<a href="//commons.wikimedia.org/wiki/Special:Log/<?= htmlspecialchars( $row[2] ) ?>"><font color="#999999">log</font></a>) moved to: <i><a href="//commons.wikimedia.org/wiki/<?= htmlspecialchars( $to ) ?>"><?= htmlspecialchars( $to ) ?></a></i></li>
+  <li><a href="//commons.wikimedia.org/wiki/User:<?= htmlspecialchars( $row[1] ) ?>"><?= htmlspecialchars( $row[1] ) ?></a> moved <b>Category:<?= str_replace("_", " ", htmlspecialchars( $row[2] )); ?></b> (<a href="https://commons.wikimedia.org/w/index.php?title=Special%3ALog&type=&user=&page=<?= urlencode( "Category:". $row[2] ) ?>"><font color="#999999">log</font></a>) moved to: <i><a href="//commons.wikimedia.org/wiki/<?= htmlspecialchars( $to ) ?>"><?= htmlspecialchars( $to ) ?></a></i></li>
    <?php endwhile; ?>
 </ul>
 <hr>
