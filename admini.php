@@ -11,11 +11,17 @@
         <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
         <title>Admin inactivity section tool (commons)</title>
   <link href="//tools-static.wmflabs.org/cdnjs/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
   <style>
     body {
       padding-top: 60px;
     }
   </style>
+  <script>
+      $(document).on("click", "#sendreq1", function() {
+      $('#spinner').show();
+      });
+  </script>
 </head>
 <body>
   <div class="navbar navbar-default navbar-fixed-top">
@@ -35,6 +41,16 @@
 <b>Administrators on Wikimedia Commons with less than five (5) adminactions in the last six months are listed below.</b>
 <br><br>
 <?php
+if ($_POST['start'] != 'yes') {
+ echo "It may take a few minutes to generate the report. Do you want to poceed?";
+ echo "<form action='admini.php' method='post'>
+  <input type='hidden' id='start' name='start' value='yes'>
+  <button type='submit' id='sendreq1' class='btn btn-success sendreq1' value='Yes'>Yes</button>
+</form> ";
+ echo "<br><br><span id='spinner' style='display:none;'><img src='https://upload.wikimedia.org/wikipedia/commons/7/78/24px-spinner-0645ad.gif'/ > <b>Fetching data...</b> This may take a while, depending on database's speed.</span>";
+ die();
+}
+
 $tools_pw = posix_getpwuid (posix_getuid ());
 $tools_mycnf = parse_ini_file($tools_pw['dir'] . "/replica.my.cnf");
 $db = new mysqli('commonswiki.labsdb', $tools_mycnf['user'], $tools_mycnf['password'], 'commonswiki_p');
