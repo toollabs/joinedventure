@@ -58,21 +58,23 @@ if ($db->connect_errno)
         die("Error when connecting to database: (" . $db->connect_errno . ") " . $db->connect_error);
 $r = $db->query('
 SELECT
- user_name AS sysop,
+ actor_name AS sysop,
  admin_actions
 FROM user_groups
 LEFT JOIN
   (
-SELECT log_user_text,
-log_user,
+SELECT actor_name,
+actor_user,
 count(log_id) AS admin_actions
 FROM logging
+INNER JOIN actor
+ ON log_actor = actor_id
 WHERE log_type IN ("block","delete","import","protect","rights", "merge", "massmessage", "abusefilter")
 AND log_type != "5"
 AND log_timestamp > DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -6 MONTH), "%Y%m%d%H%i%s")
-GROUP BY log_user_text
+GROUP BY actor_name
  ) AS sysc
-ON log_user = ug_user
+ON actor_user = ug_user
 INNER JOIN user
 ON user_id = ug_user
 WHERE ug_group = "sysop"
