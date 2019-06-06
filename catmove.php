@@ -34,7 +34,7 @@ if ($db->connect_errno)
 	die("Error when connecting to database: (" . $db->connect_errno . ") " . $db->connect_error);
 $r = $db->query('SELECT
  rc_timestamp,
- actor_user AS rc_user_text,
+ actor_name AS rc_user_text,
  rc_title,
  rc_params,
  rc_namespace,
