@@ -32,7 +32,20 @@ $tools_mycnf = parse_ini_file($tools_pw['dir'] . "/replica.my.cnf");
 $db = new mysqli('commonswiki.labsdb', $tools_mycnf['user'], $tools_mycnf['password'], 'commonswiki_p');
 if ($db->connect_errno)
 	die("Error when connecting to database: (" . $db->connect_errno . ") " . $db->connect_error);
-$r = $db->query('SELECT rc_timestamp, rc_user_text, rc_title, rc_params, rc_namespace, rc_log_type FROM recentchanges WHERE rc_namespace = "14" and rc_log_type = "move" ORDER BY rc_timestamp DESC LIMIT 200;');
+$r = $db->query('SELECT
+ rc_timestamp,
+ actor_user AS rc_user_text,
+ rc_title,
+ rc_params,
+ rc_namespace,
+ rc_log_type
+FROM recentchanges
+INNER JOIN actor
+ ON rc_actor = actor_id
+WHERE rc_namespace = "14"
+AND rc_log_type = "move" 
+ORDER BY rc_timestamp DESC
+LIMIT 200;');
 unset($tools_mycnf, $tools_pw);
 ?>
 
