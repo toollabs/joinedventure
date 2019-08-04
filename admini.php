@@ -27,7 +27,7 @@
   <div class="navbar navbar-default navbar-fixed-top">
    <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">Admin inactivity section tool</a>
+        <a class="navbar-brand" href="./admini.php?return=true">Admin inactivity section tool</a>
       </div>
 
         <ul class="nav navbar-nav navbar-right">
@@ -58,7 +58,7 @@ if ($db->connect_errno)
         die("Error when connecting to database: (" . $db->connect_errno . ") " . $db->connect_error);
 $r = $db->query('
 SELECT
- actor_name AS sysop,
+ user_name AS sysop,
  admin_actions
 FROM user_groups
 LEFT JOIN
@@ -86,8 +86,14 @@ unset($tools_mycnf, $tools_pw);
 
 <table class="table table-bordered">
 <thead> <tr> <th>Username</th> <th>Admin actions</th> </tr> </thead>
-   <?php while ($row = $r->fetch_row()): ?>
-   <tr>  <td><a href="//commons.wikimedia.org/wiki/User:<?= htmlspecialchars( $row[0] ) ?>"><?= htmlspecialchars( $row[0] ) ?></td> <td> <a href="//commons.wikimedia.org/wiki/Special:Log/<?= htmlspecialchars( $row[0] ) ?>"><?= htmlspecialchars( $row[1] ) ?></td></tr>
+   <?php while ($row = $r->fetch_row()):
+    if($row[1] === NULL) {
+     $aac = "0";
+    } else {
+     $aac = $row[1];
+    }
+   ?>
+   <tr>  <td><a href="//commons.wikimedia.org/wiki/User:<?= htmlspecialchars( $row[0] ) ?>"><?= htmlspecialchars( $row[0] ) ?></td> <td> <a href="//commons.wikimedia.org/wiki/Special:Log/<?= htmlspecialchars( $row[0] ) ?>"><?= htmlspecialchars( $aac ) ?></td></tr>
    <?php endwhile; ?>
 </table>
 <br>
@@ -98,9 +104,15 @@ unset($tools_mycnf, $tools_pw);
 <?php
 mysqli_data_seek($r, 0);
 ?><?php
-while ($row = $r->fetch_row()): ?>
+while ($row = $r->fetch_row()):
+if($row[1] === NULL) {
+ $aac = "0";
+} else {
+ $aac = $row[1];
+}
+?>
 |-
-|{{user6|<?= htmlspecialchars( $row[0] ) ?>}} || <?= htmlspecialchars( $row[1] ) ?> ||
+|{{user6|<?= htmlspecialchars( $row[0] ) ?>}} || <?= htmlspecialchars( $aac ) ?> ||
 <?php endwhile; ?>
 |}
 </pre>
