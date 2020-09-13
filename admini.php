@@ -42,7 +42,7 @@
 <br><br>
 <?php
 if ($_POST['start'] != 'yes') {
- echo "It may take a few minutes to generate the report. Do you want to poceed?";
+ echo "It may take a few minutes to generate the report. Do you want to proceed?";
  echo "<form action='admini.php' method='post'>
   <input type='hidden' id='start' name='start' value='yes'>
   <button type='submit' id='sendreq1' class='btn btn-success sendreq1' value='Yes'>Yes</button>
