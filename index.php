@@ -11,8 +11,8 @@
 
 <h1>Index</h1>
 <ul>
-	<li><a href="/joinedventure/catmove.php">CatMove RC</a></li>
-	<li><a href="/joinedventure/admini.php">Admin inactivity section tool</a></li>
+	<li><a href="/catmove.php">CatMove RC</a></li>
+	<li><a href="/admini.php">Admin inactivity section tool</a></li>
 </ul>
 <p><a href="https://github.com/Toollabs/joinedventure">Source</a></p>
 
